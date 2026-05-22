@@ -1,0 +1,21 @@
+/* App.css - basic styling for the app container */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+.app-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  background-color: #000; /* black background */
+}
+
+.app-title {
+  font-size: 3rem; /* roughly equivalent to text-5xl */
+  font-weight: 700;
+  color: #06b6d4; /* cyan-400 */
+}
+
+/* End of App.css */
