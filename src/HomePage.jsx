@@ -727,7 +727,10 @@ function GraphLab({ activeLens, onPulse, pulseNode }) {
           </defs>
           <g>
             {graph.edges.map((edge) => {
-              const line = trimmedLine(nodeById(edge.from), nodeById(edge.to));
+              const reverseForSpecificLens = activeLens === 'rieng-chung' && edge.id === 'e3';
+              const line = reverseForSpecificLens
+                ? trimmedLine(nodeById(edge.to), nodeById(edge.from))
+                : trimmedLine(nodeById(edge.from), nodeById(edge.to));
               const lit = all || onSet.has(edge.id);
               return <line key={edge.id} {...line} className={`edge ${lit ? 'on' : 'off'}`} markerEnd={lit ? 'url(#arrow-on)' : 'url(#arrow)'} />;
             })}
