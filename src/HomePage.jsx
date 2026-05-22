@@ -476,12 +476,6 @@ function drawAnim1(ctx, width, height, time) {
       color: i % 3 === 0 ? '#e8873a' : (i % 3 === 1 ? '#d4a843' : '#5a9fd4'),
     })),
   ];
-  nodes.slice(1).forEach((n, i) => {
-    n.angle += time * 0.8 * (i % 2 === 0 ? 1 : -1);
-    n.x = cx + Math.cos(n.angle) * n.orbit;
-    n.y = cy + Math.sin(n.angle) * n.orbit;
-  });
-  ctx.save(); ctx.globalAlpha = 0.38; ctx.strokeStyle = 'rgba(212,168,67,.24)'; ctx.lineWidth = 1;
   nodes.forEach((a, i) => nodes.slice(i + 1).forEach((b) => { const d = Math.hypot(a.x - b.x, a.y - b.y); if (d < 95) { ctx.globalAlpha = (1 - d / 95) * 0.45; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); } }));
   ctx.restore();
   nodes.slice(1).forEach((n, i) => {
@@ -493,12 +487,64 @@ function drawAnim1(ctx, width, height, time) {
   ctx.beginPath(); ctx.arc(cx, cy, 18 + Math.sin(time * 2) * 2, 0, Math.PI * 2); ctx.strokeStyle = 'rgba(232,161,58,.18)'; ctx.lineWidth = 1.2; ctx.stroke();
 }
 
+function drawLabel(ctx, text, x, y, options = {}) {
+  const {
+    fillStyle = 'rgba(241,237,227,.92)',
+    bgFill = 'rgba(8,11,18,.34)',
+    borderStyle = 'rgba(255,255,255,.08)',
+    font = '600 11px "Be Vietnam Pro", sans-serif',
+    paddingX = 10,
+    paddingY = 5,
+    radius = 999,
+    shadowColor = 'rgba(0,0,0,.24)',
+    shadowBlur = 8,
+    shadowOffsetY = 2,
+    align = 'center',
+  } = options;
+
+  ctx.save();
+  ctx.font = font;
+  ctx.textAlign = align;
+  ctx.textBaseline = 'middle';
+  const textWidth = ctx.measureText(text).width;
+  const boxWidth = textWidth + paddingX * 2;
+  const boxHeight = 20 + paddingY * 2;
+  const pillRadius = Math.min(radius, boxHeight / 2, boxWidth / 2);
+  const left = align === 'left' ? x : align === 'right' ? x - boxWidth : x - boxWidth / 2;
+  const top = y - boxHeight / 2;
+
+  ctx.shadowColor = shadowColor;
+  ctx.shadowBlur = shadowBlur;
+  ctx.shadowOffsetY = shadowOffsetY;
+  ctx.fillStyle = bgFill;
+  ctx.strokeStyle = borderStyle;
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(left + pillRadius, top);
+  ctx.lineTo(left + boxWidth - pillRadius, top);
+  ctx.quadraticCurveTo(left + boxWidth, top, left + boxWidth, top + pillRadius);
+  ctx.lineTo(left + boxWidth, top + boxHeight - pillRadius);
+  ctx.quadraticCurveTo(left + boxWidth, top + boxHeight, left + boxWidth - pillRadius, top + boxHeight);
+  ctx.lineTo(left + pillRadius, top + boxHeight);
+  ctx.quadraticCurveTo(left, top + boxHeight, left, top + boxHeight - pillRadius);
+  ctx.lineTo(left, top + pillRadius);
+  ctx.quadraticCurveTo(left, top, left + pillRadius, top);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.shadowColor = 'transparent';
+  ctx.fillStyle = fillStyle;
+  ctx.fillText(text, x, y + 0.5);
+  ctx.restore();
+}
+
 function drawAnim2(ctx, width, height, time) {
   ctx.clearRect(0, 0, width, height);
   const zones = [
-    { cx: 55, cy: height / 2 },
-    { cx: width / 2, cy: height / 2 },
-    { cx: width - 55, cy: height / 2 },
+    { cx: 55, cy: height / 2, label: 'Vi mô' },
+    { cx: width / 2, cy: height / 2, label: 'Vĩ mô' },
+    { cx: width - 55, cy: height / 2, label: 'Vũ trụ' },
   ];
   const t = time * 1.2;
   const drawAtom = (cx, cy) => {
@@ -517,6 +563,12 @@ function drawAnim2(ctx, width, height, time) {
   };
   const drawGalaxy = (cx, cy) => { for (let arm = 0; arm < 2; arm++) { const offset = (Math.PI * 2 / 2) * arm; for (let i = 0; i < 40; i++) { const r = 3 + i * .8; const a = offset + i * .15 + t * .3; const x = cx + Math.cos(a) * r; const y = cy + Math.sin(a) * r * .6; ctx.beginPath(); ctx.arc(x, y, (1 - i / 40) * 2 + .5, 0, Math.PI * 2); ctx.fillStyle = `rgba(212,168,67,${(1 - i / 40) * .7})`; ctx.fill(); } } };
   drawAtom(zones[0].cx, zones[0].cy); drawPlanet(zones[1].cx, zones[1].cy); drawGalaxy(zones[2].cx, zones[2].cy);
+  ctx.save();
+  ctx.font = '11px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillStyle = 'rgba(200,195,180,.55)';
+  zones.forEach((z) => ctx.fillText(z.label, z.cx, height - 10));
+  ctx.restore();
   ctx.setLineDash([4, 4]); ctx.lineDashOffset = -time * 40; ctx.strokeStyle = 'rgba(212,168,67,.4)'; ctx.lineWidth = 1;
   for (let i = 0; i < 2; i++) { const x1 = zones[i].cx + 30, x2 = zones[i + 1].cx - 30, y = height / 2; ctx.beginPath(); ctx.moveTo(x1, y); ctx.lineTo(x2, y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(x2, y); ctx.lineTo(x2 - 5, y - 3); ctx.lineTo(x2 - 5, y + 3); ctx.closePath(); ctx.fillStyle = 'rgba(212,168,67,.5)'; ctx.fill(); }
   ctx.setLineDash([]);
@@ -544,6 +596,33 @@ function drawAnim3(ctx, width, height, time) {
     else if (idx === 5) { ctx.setLineDash([2, 4]); ctx.lineDashOffset = -time * 15; let steps = 30; for (let i = 0; i <= steps; i++) { const tt = i / steps; const x = a.x + (b.x - a.x) * tt; const y = a.y + (b.y - a.y) * tt + Math.sin(tt * Math.PI * 4 + time * 3) * 5; i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } }
     else { ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); }
     ctx.stroke(); ctx.setLineDash([]);
+  });
+  drawLabel(ctx, 'Trực tiếp', (nodes[0].x + nodes[1].x) / 2, nodes[0].y - 22, {
+    fillStyle: 'rgba(245,241,232,.96)',
+    bgFill: 'rgba(12,16,24,.30)',
+  });
+  drawLabel(ctx, 'Bản chất', nodes[0].x + (nodes[3].x - nodes[0].x) * 0.52, nodes[0].y + (nodes[3].y - nodes[0].y) * 0.52, {
+    fillStyle: 'rgba(243,239,230,.93)',
+    bgFill: 'rgba(18,12,8,.24)',
+    borderStyle: 'rgba(232,161,58,.14)',
+  });
+  drawLabel(ctx, 'Bên trong', nodes[4].x - 2, height - 16, {
+    fillStyle: 'rgba(243,239,230,.93)',
+    bgFill: 'rgba(10,14,22,.30)',
+  });
+  drawLabel(ctx, 'Gián tiếp', (nodes[4].x + nodes[5].x) / 2 + 8, (nodes[4].y + nodes[5].y) / 2 - 14, {
+    fillStyle: 'rgba(243,239,230,.93)',
+    bgFill: 'rgba(10,14,22,.30)',
+  });
+  drawLabel(ctx, 'Bên ngoài', nodes[3].x - 8, height - 34, {
+    fillStyle: 'rgba(243,239,230,.93)',
+    bgFill: 'rgba(10,14,22,.30)',
+  });
+  drawLabel(ctx, 'Không', nodes[2].x + 10, nodes[2].y - 22, {
+    fillStyle: 'rgba(255,249,236,.68)',
+    bgFill: 'rgba(12,16,24,.18)',
+    borderStyle: 'rgba(255,255,255,.05)',
+    shadowBlur: 6,
   });
   nodes.forEach((n, i) => { const pulse = Math.sin(time * 2 + i) * 2; const g = ctx.createRadialGradient(n.x, n.y, 0, n.x, n.y, n.r * 3 + pulse); g.addColorStop(0, `${n.color}40`); g.addColorStop(1, 'transparent'); ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 3 + pulse, 0, Math.PI * 2); ctx.fillStyle = g; ctx.fill(); ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fillStyle = n.color; ctx.fill(); });
 }
