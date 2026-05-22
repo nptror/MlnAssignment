@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import HomePage from './HomePage'
-import Trang2 from './trang2'
 
 function App() {
   const [path, setPath] = useState(window.location.pathname)

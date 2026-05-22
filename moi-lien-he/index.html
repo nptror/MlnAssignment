@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nguyên lý về mối liên hệ phổ biến</title>
+    <meta name="description" content="Ba tính chất của mối liên hệ phổ biến: tính khách quan, tính phổ biến, tính đa dạng">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section class="section-principles" id="principles">
+        <!-- Background ambient particles -->
+        <canvas id="bgCanvas" class="bg-canvas"></canvas>
+
+        <div class="container">
+            <!-- Header -->
+            <div class="section-header" data-animate="fade-up">
+                <h2 class="section-title">
+                    Nguyên lý về <span class="highlight">mối liên hệ<br>phổ biến</span>
+                </h2>
+                <p class="section-description">
+                    Mọi sự vật, hiện tượng đều tồn tại trong mối liên hệ qua lại, tác động, ràng buộc và chuyển hóa cho nhau. Thế giới không phải tập hợp những "hạt cô lập", mà là một chỉnh thể vật chất thống nhất, vận động qua các mối liên hệ — mang ba tính chất sau.
+                </p>
+            </div>
+
+            <!-- Principles grid -->
+            <div class="principles-grid">
+                <!-- Left: Cards -->
+                <div class="principles-cards">
+                    <!-- Card 01: Tính khách quan -->
+                    <div class="principle-card" data-principle="1" data-animate="fade-right">
+                        <div class="card-content">
+                            <div class="card-left">
+                                <span class="card-number">01</span>
+                                <div class="card-text">
+                                    <h3 class="card-title">Tính khách quan</h3>
+                                    <p class="card-desc">Mối liên hệ là cái vốn có của bản thân sự vật, tồn tại độc lập với ý thức con người.</p>
+                                </div>
+                            </div>
+                            <div class="card-animation">
+                                <canvas id="anim1" width="280" height="180"></canvas>
+                            </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    <!-- Card 02: Tính phổ biến -->
+                    <div class="principle-card" data-principle="2" data-animate="fade-right">
+                        <div class="card-content">
+                            <div class="card-left">
+                                <span class="card-number">02</span>
+                                <div class="card-text">
+                                    <h3 class="card-title">Tính phổ biến</h3>
+                                    <p class="card-desc">Không có ngoại lệ — từ hạt vi mô đến thiên hà, từ tự nhiên đến xã hội và tư duy.</p>
+                                </div>
+                            </div>
+                            <div class="card-animation">
+                                <canvas id="anim2" width="280" height="180"></canvas>
+                            </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+
+                    <!-- Card 03: Tính đa dạng -->
+                    <div class="principle-card" data-principle="3" data-animate="fade-right">
+                        <div class="card-content">
+                            <div class="card-left">
+                                <span class="card-number">03</span>
+                                <div class="card-text">
+                                    <h3 class="card-title">Tính đa dạng</h3>
+                                    <p class="card-desc">Bên trong – bên ngoài, bản chất – không bản chất, trực tiếp – gián tiếp... mỗi loại giữ một vai trò khác nhau.</p>
+                                </div>
+                            </div>
+                            <div class="card-animation">
+                                <canvas id="anim3" width="280" height="180"></canvas>
+                            </div>
+                        </div>
+                        <div class="card-glow"></div>
+                    </div>
+                </div>
+
+                <!-- Right: Main network animation -->
+                <div class="main-animation" data-animate="fade-left">
+                    <canvas id="mainAnim" width="500" height="500"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="animations.js"></script>
+</body>
+</html>

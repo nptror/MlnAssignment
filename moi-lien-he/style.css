@@ -1,0 +1,327 @@
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-primary: #0f1523;
+    --bg-card: rgba(20, 30, 50, 0.6);
+    --bg-card-hover: rgba(25, 38, 65, 0.8);
+    --border-card: rgba(200, 170, 100, 0.15);
+    --border-card-hover: rgba(200, 170, 100, 0.35);
+    --text-primary: #e8e2d6;
+    --text-secondary: rgba(200, 195, 180, 0.7);
+    --text-muted: rgba(180, 175, 165, 0.5);
+    --accent-gold: #d4a843;
+    --accent-gold-bright: #f0c860;
+    --accent-orange: #e8873a;
+    --font-display: 'Playfair Display', Georgia, serif;
+    --font-body: 'Inter', -apple-system, sans-serif;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+/* ===== Section ===== */
+.section-principles {
+    position: relative;
+    min-height: 100vh;
+    padding: 80px 0 100px;
+    background: linear-gradient(180deg, 
+        #0f1523 0%, 
+        #111a2e 30%, 
+        #0d1320 70%, 
+        #0f1523 100%
+    );
+    overflow: hidden;
+}
+
+.bg-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+/* ===== Header ===== */
+.section-header {
+    margin-bottom: 60px;
+    max-width: 600px;
+}
+
+.section-title {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 24px;
+    color: var(--text-primary);
+}
+
+.section-title .highlight {
+    font-style: italic;
+    color: var(--accent-gold);
+    background: linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-description {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--text-secondary);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+}
+
+/* ===== Grid Layout ===== */
+.principles-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+}
+
+/* ===== Cards ===== */
+.principles-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.principle-card {
+    position: relative;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(20px);
+    cursor: default;
+}
+
+.principle-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(212, 168, 67, 0.3) 30%, 
+        rgba(212, 168, 67, 0.5) 50%, 
+        rgba(212, 168, 67, 0.3) 70%, 
+        transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.principle-card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-card-hover);
+    transform: translateX(8px);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 60px rgba(212, 168, 67, 0.05);
+}
+
+.principle-card:hover::before {
+    opacity: 1;
+}
+
+.card-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, 
+        rgba(212, 168, 67, 0.03) 0%, 
+        transparent 60%
+    );
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;
+}
+
+.principle-card:hover .card-glow {
+    opacity: 1;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    padding: 28px 24px;
+    gap: 16px;
+}
+
+.card-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1;
+    min-width: 0;
+}
+
+.card-number {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-gold);
+    opacity: 0.7;
+    line-height: 1;
+    flex-shrink: 0;
+    background: linear-gradient(180deg, var(--accent-gold-bright), var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+}
+
+.card-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    font-weight: 300;
+}
+
+/* ===== Card Animation Container ===== */
+.card-animation {
+    flex-shrink: 0;
+    border-radius: 12px;
+    overflow: hidden;
+    opacity: 0.85;
+    transition: opacity 0.4s ease;
+}
+
+.principle-card:hover .card-animation {
+    opacity: 1;
+}
+
+.card-animation canvas {
+    display: block;
+    border-radius: 12px;
+}
+
+/* ===== Main Animation ===== */
+.main-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-animation canvas {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    aspect-ratio: 1;
+}
+
+/* ===== Scroll Animations ===== */
+[data-animate] {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-animate="fade-right"] {
+    transform: translateX(-40px);
+}
+
+[data-animate="fade-left"] {
+    transform: translateX(40px);
+}
+
+[data-animate].visible {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 1024px) {
+    .principles-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-animation {
+        order: -1;
+    }
+    
+    .main-animation canvas {
+        max-width: 400px;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-principles {
+        padding: 60px 0 80px;
+    }
+    
+    .container {
+        padding: 0 20px;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .card-content {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .card-animation {
+        width: 100%;
+    }
+    
+    .card-animation canvas {
+        width: 100%;
+        height: 140px;
+    }
+}
+
+@media (max-width: 480px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .card-left {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
